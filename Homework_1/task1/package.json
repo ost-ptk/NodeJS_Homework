@@ -1,0 +1,14 @@
+{
+  "name": "module_1",
+  "version": "1.0.0",
+  "description": "homework",
+  "main": "index.js",
+  "scripts": {
+    "task1": "../node_modules/.bin/nodemon --exec babel-node task1/task1.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
