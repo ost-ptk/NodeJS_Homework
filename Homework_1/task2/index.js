@@ -1,0 +1,20 @@
+const csv = require('csvtojson');
+const fs = require('fs')
+const { pipeline } = require('stream')
+
+const readStream = fs.createReadStream('./csv/nodejs.csv');
+const writeStream = fs.createWriteStream('./text.txt');
+
+pipeline(
+  readStream,
+  csv(),
+  writeStream,
+  (error) => {
+    if (error) {
+      console.error(error.message)
+    } else {
+      console.log('Finished')
+    }
+  }
+)
+
