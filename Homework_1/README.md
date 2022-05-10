@@ -1,0 +1,1 @@
+First homework in NodeJS Global Program
