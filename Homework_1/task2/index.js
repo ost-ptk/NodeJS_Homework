@@ -7,7 +7,7 @@ const writeStream = fs.createWriteStream('./text.txt');
 
 pipeline(
   readStream,
-  csv(),
+  csv({ delimiter: ';' }),
   writeStream,
   (error) => {
     if (error) {
