@@ -1,18 +1,16 @@
-import dotenv from 'dotenv'
-import express from 'express'
+import dotenv from 'dotenv';
+import express from 'express';
 
-import router from './routes'
+import router from './routes';
 
-dotenv.config()
-const app = express()
-const port = process.env.PORT || 3000
+dotenv.config();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const app = express();
+const port = process.env.PORT || 3000;
+
 app.use(express.json());
-app.use(router)
+app.use(router);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`App listening on port ${port}`);
+});
