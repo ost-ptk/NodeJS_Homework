@@ -1,5 +1,7 @@
-import { NewUserRequestBody, UpdateUserRequestBody, User, users } from './users';
 import { v4 as uuidv4 } from 'uuid';
+
+import { users } from '../models';
+import { NewUserRequestBody, UpdateUserRequestBody, User } from '../types';
 
 export const createUser = (newUser: NewUserRequestBody): User => {
   const user = {

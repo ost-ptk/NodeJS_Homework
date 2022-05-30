@@ -1,13 +1,12 @@
 import express, { Request, Response } from 'express';
+import { ValidatedRequest, createValidator } from 'express-joi-validation';
 
-import { createUser, deleteUser, findUser, getAutoSuggestUsers, updateUser } from './helpers';
-import { NewUserRequestBody, UpdateUserRequestBody } from './users';
-
-interface CustomRequestBody<T> extends Request {
-  body: T
-}
+import { createUser, deleteUser, findUser, getAutoSuggestUsers, updateUser } from '../services';
+import { updateUserRequestSchema, userRequestSchema} from '../schemas';
+import { UpdateUserRequestSchema, UserRequestSchema } from '../types';
 
 const router = express.Router();
+const validator = createValidator();
 
 router.route('/user')
 // get auto suggest users
@@ -18,12 +17,15 @@ router.route('/user')
     res.send(autoSuggestUsers);
   })
 // Add user
-  .post((req: CustomRequestBody<NewUserRequestBody>, res) => {
-    const newUser = createUser(req.body);
+  .post(
+    validator.body(userRequestSchema),
+    (req: ValidatedRequest<UserRequestSchema>, res) => {
+      const newUser = createUser(req.body);
 
-    res.setHeader('Location', `/users/${newUser.id}`);
-    res.status(201).send(newUser);
-  });
+      res.setHeader('Location', `/users/${newUser.id}`);
+      res.status(201).send(newUser);
+    });
+
 
 router.route('/user/:id')
 // Get user by id
@@ -49,13 +51,16 @@ router.route('/user/:id')
     }
   })
 // Update user
-  .patch((req: CustomRequestBody<UpdateUserRequestBody>, res) => {
-    const updatedUser = updateUser(req.params.id, req.body);
+  .patch(
+    validator.body(updateUserRequestSchema),
+    (req: ValidatedRequest<UpdateUserRequestSchema>, res) => {
+      const updatedUser = updateUser(req.params.id, req.body);
 
       if (!updatedUser) {
         res.status(404).send({ error: 'User not found' });
       }
-      res.status(200).send(updatedUser);
-  });
 
-export default router;
+      res.status(200).send(updatedUser);
+    });
+
+export const userRouters = router;

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 
-import router from './routes';
+import { userRouters } from './routers';
 
 dotenv.config();
 
@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(router);
+app.use(userRouters);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
