@@ -13,3 +13,7 @@ sequelize.authenticate()
     // eslint-disable-next-line no-console
     console.error('Unable to connect to the database:', error);
   });
+
+sequelize.sync({ alter: true }).catch((error: string) => {
+  throw new Error(error);
+});

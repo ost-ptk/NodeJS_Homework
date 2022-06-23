@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
 
-import { createUser, findUserById, deleteUserById, updateUserById, getAutoSuggestUsers } from '../../services';
-import { updateUserRequestValidator, userRequestValidator } from '../middelwares';
-import { UpdateUserRequestSchema, UserRequestSchema } from '../../types';
+import { createUser, findUserById, deleteUserById, updateUserById, getAutoSuggestUsers, addUsersToGroup } from '../../services';
+import { addUserToGroupRequestValidator, updateUserRequestValidator, userRequestValidator } from '../middelwares';
+import { AddUserToGroupRequest, UpdateUserRequestSchema, UserRequestSchema } from '../../types';
 
 const router = express.Router();
 
@@ -79,5 +79,19 @@ router.route('/user/:id')
         return next(error);
       }
     });
+
+router.post('/user-to-group', addUserToGroupRequestValidator, async (req: ValidatedRequest<AddUserToGroupRequest>, res: Response, next) => {
+  try {
+    const isUserAdded: boolean | string = await addUsersToGroup(req.body.groupId, req.body.userId);
+
+    if (typeof isUserAdded === 'string') {
+      res.status(400).send({ error: isUserAdded });
+    } else {
+      res.status(200).send(isUserAdded);
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
 
 export const userRouters = router;

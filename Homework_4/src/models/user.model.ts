@@ -30,7 +30,3 @@ export const User = sequelize.define<UserModel>('user', {
   paranoid: true,
   deletedAt: 'destroyTime'
 });
-
-User.sync({ alter: true }).catch((error: string) => {
-  throw new Error(error);
-});
