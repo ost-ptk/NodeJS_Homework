@@ -2,3 +2,4 @@ node_modules
 /.idea/
 combined.log
 error.log
+/coverage/
